@@ -121,7 +121,29 @@ class Report(db.Model):
 
 	def has_reactors(self):
 		return True if self.reactors.count() > 0 else False
+	
+	def has_heatX(self):
+		return True if self.heatExchangers.count() > 0 else False
+	
+	def has_dryer(self):
+		return True if self.dryers.count() > 0 else False
+	
+	def has_oequip(self):
+		return True if self.dryers.count() >0 else False
+	
+	def power(self, equip_type):
+		totalkw=0.0
+		for each in self.equip_type:
+			totalkw += each.power()
+		return totalkw	
 
+	def ghg(self, equip_type):	#returns pounds of CO2 for each equipment type
+		totalkw=self.power(equip_type)
+		coal=coal_frac*totalkw*2.15 #each term in lb of CO2
+		oil=oil_frac*totalkw*1.81
+		gas=natgas_frac*totalkw*1.21
+		return coal+oil+gas
+		#the data came from USEIA updated March 2015
 	def __repr__(self):
 		return "Report: {0}".format(self.title)
 
@@ -168,6 +190,8 @@ class Reactor(db.Model):
 
 	def __repr__(self):
 		return "Reactor: {0}".format(self.name)
+	def power(self):
+		return self.power/self.efficiency
 
 class HeatExchanger(db.Model):
 	__tablename__ = 'heatexchanger'
@@ -192,6 +216,9 @@ class HeatExchanger(db.Model):
 
 	def __repr__(self):
 		return "Reactor: {0}".format(self.name)
+	
+	def power(self):
+		return self.power/self.efficiency
 
 class Dryer(db.Model):
 	__tablename__ = 'dryer'
@@ -223,6 +250,12 @@ class Dryer(db.Model):
 	def __repr__(self):
 		return "Reactor: {0}".format(self.name)
 	
+	def power(self):
+		if self.power> 0.0:
+			return self.power/self.efficiency
+		return self.flowrate*(self.tempIn-self.tempOut)*self.latentHeat/self.efficiency;
+	
+	
 class OtherEquipment(db.Model):
 	__tablename__ = 'otherequipment'
 	id = db.Column(db.Integer, primary_key = True)
@@ -237,3 +270,6 @@ class OtherEquipment(db.Model):
 		self.flowRate 			= kwargs.get('flowRate', None)
 		self.power   		 	= kwargs.get('power', None)
 		self.efficiency 		= kwargs.get('efficiency', None)
+		
+	def power(self):
+		return self.power/self.efficiency

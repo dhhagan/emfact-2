@@ -79,6 +79,9 @@ class User(UserMixin, db.Model):
 	def is_administrator(self):
 		return self.can(Permission.ADMINISTER)
 
+	def has_reports(self):
+		return True if self.reports.count() > 0 else False
+
 	def __repr__(self):
 		return "<User %r>" % self.username
 

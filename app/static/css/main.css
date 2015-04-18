@@ -64,6 +64,7 @@ body a:hover {
     }
 @media (min-width: 1201px) {
     #LHS-admin {
-        margin-top: 95px;
+        padding-top: 120px;
     }
+
    }

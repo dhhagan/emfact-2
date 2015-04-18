@@ -1,0 +1,90 @@
+{% if plantform %}
+    <form class='form form-horizontal' action="" method="post" name="plantform" >
+        {{ plantform.hidden_tag() }}
+
+        {% if plantform.errors.title %}
+        <div class='form-group has-feedback has-error'>
+        {% else %}
+        <div class='form-group has-feedback'>
+        {% endif %}
+
+            <label for="title" class="col-lg-4 control-label">Title</label>
+            <div class="col-lg-8">
+              {{ plantform.title(class='form-control')}}
+                {% if plantform.errors.title %}
+                <span class='glyphicon glyphicon-remove form-control-feedback'></span>
+                {% endif %}
+            </div>
+        </div>
+
+        {% if plantform.errors.description %}
+        <div class='form-group has-feedback has-error'>
+        {% else %}
+        <div class='form-group has-feedback'>
+        {% endif %}
+
+            <label for="description" class="col-lg-4 control-label">Description</label>
+            <div class="col-lg-8">
+              {{ plantform.description(class='form-control')}}
+                {% if plantform.errors.description %}
+                <span class='glyphicon glyphicon-remove form-control-feedback'></span>
+                {% endif %}
+            </div>
+        </div>
+
+        {% if plantform.errors.location %}
+        <div class='form-group has-feedback has-error'>
+        {% else %}
+        <div class='form-group has-feedback'>
+        {% endif %}
+
+            <label for="location" class="col-lg-4 control-label">Location</label>
+            <div class="col-lg-8">
+              {{ plantform.location(class='form-control')}}
+                {% if plantform.errors.location %}
+                <span class='glyphicon glyphicon-remove form-control-feedback'></span>
+                {% endif %}
+            </div>
+        </div>
+
+        {% if plantform.errors.revenue %}
+        <div class='form-group has-feedback has-error'>
+        {% else %}
+        <div class='form-group has-feedback'>
+        {% endif %}
+
+            <label for="description" class="col-lg-4 control-label">Revenue</label>
+            <div class="col-lg-8">
+              {{ plantform.revenue(class='form-control', placeholder='per year in USD')}}
+                {% if plantform.errors.revenue %}
+                <span class='glyphicon glyphicon-remove form-control-feedback'></span>
+                {% endif %}
+            </div>
+        </div>
+
+        {% if plantform.errors.NAICS %}
+        <div class='form-group has-feedback has-error'>
+        {% else %}
+        <div class='form-group has-feedback'>
+        {% endif %}
+
+            <label for="NAICS" class="col-lg-4 control-label">NAICS</label>
+            <div class="col-lg-8">
+              {{ plantform.NAICS(class='form-control', placeholder='what NAICS industry code applies to your plant..')}}
+                {% if plantform.errors.NAICS %}
+                <span class='glyphicon glyphicon-remove form-control-feedback'></span>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class='col-lg-4 col-lg-offset-4'>
+            {{ plantform.submitInfo(class='btn btn-primary btn-block')}}
+        </div>
+
+    </form>
+
+
+        
+
+
+{% endif %}

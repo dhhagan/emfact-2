@@ -3,10 +3,10 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField, Float
 from wtforms.validators import Required, Length, Email
 
 class ReactorForm(Form):
-	name = StringField('Name')
+	name = StringField('Name', validators = [Required()])
 	power = FloatField('Power')
 	efficiency = FloatField('Efficiency')
-	submit = SubmitField('Add')
+	submitReactor = SubmitField('Add')
 
 class HeatXForm(Form):
 	name = StringField('Name')
@@ -15,7 +15,7 @@ class HeatXForm(Form):
 	tempIn = FloatField('TempIn')
 	tempOut = FloatField('TempOut')
 	efficiency = FloatField('Efficiency')
-	submit = SubmitField('Add')
+	submitHeatX = SubmitField('Add')
 
 class PlantInfoForm(Form):
     title = StringField('title')
@@ -23,4 +23,4 @@ class PlantInfoForm(Form):
     location = StringField('location')
     revenue = FloatField('revenue') 
     NAICS = IntegerField('NAICS')   
-    submit = SubmitField('Update')
+    submitInfo = SubmitField('Update')

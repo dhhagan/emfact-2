@@ -34,18 +34,18 @@ def dashboard():
 def view_report(id = None):
 	reactorForm = ReactorForm()
 	heatXForm = HeatXForm()
-	plantinfoform = PlantInfoForm()
+	plantform = PlantInfoForm()
 
 	report = Report.query.filter_by(id = id).first()
 
 	if report is not None:
 		# pre-populate the fields in the plant info form only
-		plantinfoform.revenue.data = report.revenue
-		plantinfoform.title.data = report.title
-		plantinfoform.description.data = report.description
-		plantinfoform.NAICS.data = report.NAICS
+		plantform.revenue.data = report.revenue
+		plantform.title.data = report.title
+		plantform.description.data = report.description
+		plantform.NAICS.data = report.NAICS
 
-		if reactorForm.validate_on_submit():
+		if reactorForm.validate_on_submit() and reactorForm.submit.data:
 			new_reactor = Reactor(
 				name = reactorForm.name.data,
 				power = reactorForm.power.data,
@@ -60,12 +60,14 @@ def view_report(id = None):
 
 			return redirect(url_for('main.view_report', id = report.id))
 
-		if plantinfoform.validate_on_submit():
-			report.title = plantinfoform.title.data
-			report.description = plantinfoform.description.data
-			report.NAICS = plantinfoform.NAICS.data
-			report.location = plantinfoform.location.data
-			report.revenue = plantinfoform.revenue.data
+		elif plantform.validate_on_submit():
+			report.title = plantform.title.data
+			report.description = plantform.description.data
+			report.NAICS = plantform.NAICS.data
+			report.location = plantform.location.data
+			report.revenue = plantform.revenue.data
+
+			flash("I got here!")
 
 			try:
 				db.session.add(report)
@@ -75,7 +77,7 @@ def view_report(id = None):
 
 			return redirect(url_for('main.view_report', id = report.id))
 		else:
-			flash("Fail")
+			pass
 
 	else:
 		report = Report()
@@ -84,12 +86,12 @@ def view_report(id = None):
 
 		report = Report.query.order_by(desc(Report.id)).first()
 
-		if plantinfoform.validate_on_submit():
-			report.title = plantinfoform.title.data
-			report.description = plantinfoform.description.data
-			report.location = plantinfoform.location.data
-			report.revenue = plantinfoform.revenue.data
-			report.NAICS = plantinfoform.NAICS.data
+		if plantform.validate_on_submit():
+			report.title = plantform.title.data
+			report.description = plantform.description.data
+			report.location = plantform.location.data
+			report.revenue = plantform.revenue.data
+			report.NAICS = plantform.NAICS.data
 
 			try:
 				db.session.add(report)
@@ -117,5 +119,5 @@ def view_report(id = None):
 	return render_template('main/report.html',
 		reactorForm = reactorForm,
 		heatXForm = heatXForm,
-		plantinfoform = plantinfoform,
+		plantform = plantform,
 		report = report)

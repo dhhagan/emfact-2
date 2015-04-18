@@ -1,0 +1,44 @@
+{% if heatXForm %}
+	<form action="" method="post" name="heatXForm" class='form-horizontal'>
+		{{ heatXForm.hidden_tag() }}
+
+		{% if heatXForm.errors.name %}
+        <div class='form-group has-feedback has-error'>
+        {% else %}
+        <div class='form-group has-feedback'>
+        {% endif %}
+
+            {{ heatXForm.name(class='form-control', placeholder='name..') }}
+            {% if heatXForm.errors.name %}
+                <span class='glyphicon glyphicon-remove form-control-feedback'></span>
+            {% endif %}
+        </div>
+
+
+        {% if heatXForm.errors.flowrate %}
+        <div class='form-group has-feedback has-error'>
+        {% else %}
+        <div class='form-group has-feedback'>
+        {% endif %}
+            {{ heatXForm.flowrate(class='form-control', placeholder='flowrate..') }}
+            {% if heatXForm.errors.flowrate %}
+                <span class='glyphicon glyphicon-remove form-control-feedback'></span>
+            {% endif %}
+        </div>
+
+        {% if heatXForm.errors.heatcapacity %}
+        <div class='form-group has-feedback has-error'>
+        {% else %}
+        <div class='form-group has-feedback'>
+        {% endif %}
+            {{ heatXForm.heatcapacity(class='form-control', placeholder='heat capacity..') }}
+            {% if heatXForm.errors.heatcapacity %}
+                <span class='glyphicon glyphicon-remove form-control-feedback'></span>
+            {% endif %}
+        </div>
+
+        <div class=''>
+        	{{ heatXForm.submit(class='btn btn-primary btn-block')}}
+        </div>
+	</form>
+{% endif %}

@@ -1,0 +1,45 @@
+{% if reactorForm %}
+	<form action="" method="post" name="reactorForm" class='form-horizontal'>
+		{{ reactorForm.hidden_tag() }}
+
+		{% if reactorForm.errors.name %}
+        <div class='form-group has-feedback has-error'>
+        {% else %}
+        <div class='form-group has-feedback'>
+        {% endif %}
+
+            {{ reactorForm.name(class='form-control', placeholder='name..') }}
+            {% if reactorForm.errors.name %}
+                <span class='glyphicon glyphicon-remove form-control-feedback'></span>
+            {% endif %}
+        </div>
+
+
+        {% if reactorForm.errors.power %}
+        <div class='form-group has-feedback has-error'>
+        {% else %}
+        <div class='form-group has-feedback'>
+        {% endif %}
+            {{ reactorForm.power(class='form-control', placeholder='power..') }}
+            {% if reactorForm.errors.power %}
+                <span class='glyphicon glyphicon-remove form-control-feedback'></span>
+            {% endif %}
+        </div>
+
+        {% if reactorForm.errors.efficiency %}
+        <div class='form-group has-feedback has-error'>
+        {% else %}
+        <div class='form-group has-feedback'>
+        {% endif %}
+            {{ reactorForm.efficiency(class='form-control', placeholder='efficiency..') }}
+            {% if reactorForm.errors.efficiency %}
+                <span class='glyphicon glyphicon-remove form-control-feedback'></span>
+            {% endif %}
+        </div>
+
+
+        <div class=''>
+        	{{ reactorForm.submit(class='btn btn-primary btn-block')}}
+        </div>
+	</form>
+{% endif %}

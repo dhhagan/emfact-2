@@ -1,0 +1,18 @@
+{% if report.has_reactors() %}
+	<table class='table table-bordered'>
+		<thead>
+			<th>Name</th>
+			<th>Power</th>
+			<th>Efficiency</th>
+		</thead>
+		<tbody>
+		{% for reactor in report.reactors %}
+			<tr>
+				<td>{{reactor.name}}</td>
+				<td>{{reactor.power}}</td>
+				<td>{{reactor.efficiency}}</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+{% endif %}

@@ -3,6 +3,7 @@ from . import login_manager
 from datetime import datetime
 from flask import current_app, url_for
 import random, string
+import datetime
 from sqlalchemy.exc import IntegrityError
 
 from flask.ext.login import UserMixin, AnonymousUserMixin
@@ -112,6 +113,9 @@ class Report(db.Model):
 		self.location = location
 		self.created = datetime.datetime.utcnow()
 
+	def has_reactors(self):
+		return True if self.reactors.count() > 0 else False
+
 	def __repr__(self):
 		return "Report: {0}".format(self.title)
 
@@ -154,6 +158,7 @@ class Reactor(db.Model):
 		self.toxicWater 		= kwargs.get('toxicWater', None)
 		self.toxicAir 			= kwargs.get('toxicAir', None)
 		self.releaseFraction	= kwargs.get('releaseFraction', None)
+		self.report_id			= kwargs.get('report_id', None)
 
 	def __repr__(self):
 		return "Reactor: {0}".format(self.name)

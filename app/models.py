@@ -116,18 +116,12 @@ class Report(db.Model):
 		self.title = title
 		self.description = description
 		self.location = location
-<<<<<<< Updated upstream
+		self.revenue = revenue
 		self.created = datetime.datetime.utcnow()
 
 	def has_reactors(self):
 		return True if self.reactors.count() > 0 else False
 
-=======
-#		self.created = datetime.datetime.utcnow()
-		self.created = datetime.utcnow()
-		self.revenue = revenue
-		
->>>>>>> Stashed changes
 	def __repr__(self):
 		return "Report: {0}".format(self.title)
 
@@ -241,12 +235,3 @@ class OtherEquipment(db.Model):
 		self.flowRate 			= kwargs.get('flowRate', None)
 		self.power   		 	= kwargs.get('power', None)
 		self.efficiency 		= kwargs.get('efficiency', None)
-
-#class PlantInfo(db.Model):
-#	__tablename__='plantinfo'
-#	id = db.Column(db.Integer, primary_key = True)
-#	revenue=db.Column(db.Float)
-#	
-#	def __init__(self, **kwargs):
-#		self.revenue			= kwargs.get('revenue', None)
-		

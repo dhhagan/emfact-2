@@ -1,0 +1,34 @@
+{% if plantinfoform %}
+    <form method="post" name="plantinfoform" class='form-horizontal' enctype="multipart/form-data">
+        {{ plantinfoform.hidden_tag() }}
+        {% for each in plantinfoform.errors %}  
+            <div class='alert'>{{each }}</div>
+        {% endfor %}
+        <div class='form-group'>
+            <div>
+                {{ plantinfoform.title(class = 'form-control', placeholder = 'enter the name of this report') }}
+            </div>
+            </div><div class='form-group'>
+            <div>
+                {{ plantinfoform.description(class = 'form-control', placeholder = 'describe this plant') }}
+            </div>
+            </div><div class='form-group'>
+            <div>
+                {{ plantinfoform.location(class = 'form-control', placeholder = 'where is this plant') }}
+            </div>
+            </div><div class='form-group'>
+            <div>
+                {{ plantinfoform.revenue(class = 'form-control', placeholder = 'How much does this plant make per year (USD)?') }}
+            </div>
+            </div><div class='form-group'>
+            <div>
+                {{ plantinfoform.NAICS(class = 'form-control', placeholder = 'What NAICS industry code applies to your plant?') }}
+            </div>
+        </div>
+
+        <div class=''>
+            {{ plantinfoform.submit(class='btn btn-primary btn-block')}}
+        </div>
+
+    </form>
+{% endif %}

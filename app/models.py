@@ -51,6 +51,7 @@ class User(UserMixin, db.Model):
 	username = db.Column(db.String(64), unique = True, index = True)
 	_password_hash = db.Column(db.String(128))
 	role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+	reports = db.relationship('Report', backref = 'owner', lazy = 'dynamic')
 
 	def __init__(self, **kwargs):
 		super(User, self).__init__(**kwargs)
@@ -89,3 +90,39 @@ class AnonymousUser(AnonymousUserMixin):
 		return False
 
 login_manager.anonymous_user = AnonymousUser
+
+class Report(db.Model):
+	__tablename__ = 'report'
+	id = db.Column(db.Integer, primary_key = True)
+	title = db.Column(db.String(128))
+	description = db.Column(db.Text)
+	location = db.Column(db.String(128))
+	created = db.Column(db.DateTime)
+	user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+	equipment = db.relationship('Equipment', backref = 'report', lazy = 'dynamic')
+
+	def __init__(self, title = None, description = None, location = None):
+		self.title = title
+		self.description = description
+		self.location = location
+		self.created = datetime.datetime.utcnow()
+
+	def __repr__(self):
+		return "Report: {0}".format(self.title)
+
+class Equipment(db.Model):
+	__tablename__ = 'equipment'
+	id = db.Column(db.Integer, primary_key = True)
+	location = db.Column(db.String(128))
+	kind = db.Column(db.String(128))
+	power_req = db.Column(db.Float)
+	efficiency = db.Column(db.Float)
+	report_id = db.Column(db.Integer, db.ForeignKey('report.id'))
+
+	def __init__(self, location = None, kind = None, power_req = None):
+		self.location = location
+		self.kind = kind
+		self.power_req = power_req
+
+	def __repr__(self):
+		return "Equipment: {0}".format(self.kind)

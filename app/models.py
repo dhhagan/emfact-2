@@ -99,7 +99,9 @@ class Report(db.Model):
 	location = db.Column(db.String(128))
 	created = db.Column(db.DateTime)
 	user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-	equipment = db.relationship('Equipment', backref = 'report', lazy = 'dynamic')
+	reactors = db.relationship('Reactor', backref = 'report', lazy = 'dynamic')
+	heatExchangers = db.relationship('HeatExchanger', backref = 'report', lazy = 'dynamic')
+	dryers = db.relationship('Dryer', backref = 'report', lazy = 'dynamic')
 
 	def __init__(self, title = None, description = None, location = None):
 		self.title = title
@@ -110,19 +112,97 @@ class Report(db.Model):
 	def __repr__(self):
 		return "Report: {0}".format(self.title)
 
-class Equipment(db.Model):
-	__tablename__ = 'equipment'
+
+class Reactor(db.Model):
+	__tablename__ = 'reactor'
 	id = db.Column(db.Integer, primary_key = True)
-	location = db.Column(db.String(128))
-	kind = db.Column(db.String(128))
-	power_req = db.Column(db.Float)
+	name = db.Column(db.String(160))
+	reactant1 = db.Column(db.String(128))
+	reactant2 = db.Column(db.String(128))
+	reactant3 = db.Column(db.String(128))
+	product1 = db.Column(db.String(128))
+	product2 = db.Column(db.String(128))
+	product3 = db.Column(db.String(128))
+	catalyst1 = db.Column(db.String(128))
+	catalyst2 = db.Column(db.String(128))
+	power = db.Column(db.Float)
+	efficiency = db.Column(db.Float)
+	loadingRate = db.Column(db.Float)
+	nonToxicPollutants = db.Column(db.Float)
+	toxicWater = db.Column(db.Float)
+	toxicAir = db.Column(db.Float)
+	releaseFraction = db.Column(db.Float)
+	report_id = db.Column(db.Integer, db.ForeignKey('report.id'))
+
+	def __init__(self, **kwargs):
+		self.name 				= kwargs.get('name', None)
+		self.reactant1 			= kwargs.get('reactant1', None)
+		self.reactant2 			= kwargs.get('reactant2', None)
+		self.reactant3 			= kwargs.get('reactant3', None)
+		self.product1 			= kwargs.get('product1', None)
+		self.product2 			= kwargs.get('product2', None)
+		self.product3 			= kwargs.get('product3', None)
+		self.catalyst1 			= kwargs.get('catalyst1', None)
+		self.catalyst2 			= kwargs.get('catalyst2', None)
+		self.power 				= kwargs.get('power', None)
+		self.efficiency 		= kwargs.get('efficiency', None)
+		self.loadingRate 		= kwargs.get('loadingRate', None)
+		self.nonToxicPollutants = kwargs.get('nonToxicPollutants', None)
+		self.toxicWater 		= kwargs.get('toxicWater', None)
+		self.toxicAir 			= kwargs.get('toxicAir', None)
+		self.releaseFraction	= kwargs.get('releaseFraction', None)
+
+	def __repr__(self):
+		return "Reactor: {0}".format(self.name)
+
+class HeatExchanger(db.Model):
+	__tablename__ = 'heatexchanger'
+	id = db.Column(db.Integer, primary_key = True)
+	name = db.Column(db.String(160))
+	flowRate = db.Column(db.Float)
+	specificHeat = db.Column(db.Float)
+	tempIn = db.Column(db.Float)
+	tempOut = db.Column(db.Float)
 	efficiency = db.Column(db.Float)
 	report_id = db.Column(db.Integer, db.ForeignKey('report.id'))
 
-	def __init__(self, location = None, kind = None, power_req = None):
-		self.location = location
-		self.kind = kind
-		self.power_req = power_req
+	def __init__(self, **kwargs):
+		self.name 			= kwargs.get('name', None)
+		self.flowRate 		= kwargs.get('flowRate', None)
+		self.specificHeat 	= kwargs.get('specificHeat', None)
+		self.tempIn 		= kwargs.get('tempIn', None)
+		self.tempOut 		= kwargs.get('tempOut', None)
+		self.efficiency 	= kwargs.get('efficiency', None)
 
 	def __repr__(self):
-		return "Equipment: {0}".format(self.kind)
+		return "Reactor: {0}".format(self.name)
+
+class Dryer(db.Model):
+	__tablename__ = 'dryer'
+	id = db.Column(db.Integer, primary_key = True)
+	name = db.Column(db.String(160))
+	flowRate = db.Column(db.Float)
+	nonToxicAir = db.Column(db.Float)
+	toxicAir = db.Column(db.Float)
+	releaseFraction = db.Column(db.Float)
+	specificHeat = db.Column(db.Float)
+	tempIn = db.Column(db.Float)
+	tempOut = db.Column(db.Float)
+	latentHeat = db.Column(db.Float)
+	efficiency = db.Column(db.Float)
+	report_id = db.Column(db.Integer, db.ForeignKey('report.id'))
+
+	def __init__(self, **kwargs):
+		self.name 				= kwargs.get('name', None)
+		self.flowRate 			= kwargs.get('flowRate', None)
+		self.nonToxicAir    	= kwargs.get('nonToxicAir', None)
+		self.toxicAir 			= kwargs.get('toxicAir', None)
+		self.releaseFraction 	= kwargs.get('releaseFraction', None)
+		self.specificHeat 		= kwargs.get('specificHeat', None)
+		self.tempIn 			= kwargs.get('tempIn', None)
+		self.tempOut 			= kwargs.get('tempOut', None)
+		self.latentHeat 		= kwargs.get('latentHeat', None)
+		self.efficiency 		= kwargs.get('efficiency', None)
+
+	def __repr__(self):
+		return "Reactor: {0}".format(self.name)

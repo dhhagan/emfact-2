@@ -12,3 +12,8 @@ from flask.ext.login import login_required
 @main.route('/index')
 def index():
 	return render_template('main/home.html')
+
+@main.route('/dashboard')
+@login_required
+def dashboard():
+	return render_template('main/dashboard.html')

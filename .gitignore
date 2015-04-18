@@ -1,8 +1,5 @@
 flask
-*.db
 tmp
-migrations
-
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

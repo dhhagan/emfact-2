@@ -10,12 +10,27 @@
             <a class='navbar-brand' href="{{ url_for('main.index') }}">PowerBasic+</a>
         </div><!-- end navbar-header -->
 
-        <div class='collapse navbar-collapse' id='nav-collapse'>
+  <!--      <div class='collapse navbar-collapse' id='nav-collapse'>
             <ul class='nav navbar-nav'>
                 <li {% if request.path == '/index' %}class='active'{% elif request.path == '/' %}class='active'{% endif %}>
                     <a href="{{ url_for('main.index') }}">Home</a>
                 </li>
             </ul>
+  -->
+  		{% if current_user.is_authenticated() %}
+            <ul class='nav navbar-nav'>
+                <li class='dropdown'>
+                    <a href='#' class='dropdown-toggle' data-toggle='dropdown'>
+                        <i class="fa fa-user fa-fw"></i> Input <b class='caret'></b>
+                    </a>
+
+                    <ul class='dropdown-menu'>
+                        <li><a href="{{ url_for('auth.logout') }}"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+            {% endif %}
+  
 
             {% if current_user.is_authenticated() %}
             <ul class='nav navbar-nav navbar-right'>
@@ -29,7 +44,13 @@
                     </ul>
                 </li>
             </ul>
+            {% else %}
+            <a href="{{url_for('auth.login')}}"> <button type="button" class="btn btn-default navbar-btn pull-right">Sign in</button> </a>
+            
+            
             {% endif %}
+            
+            
         </div><!-- end nav-collapse -->
     </div>
 </nav>

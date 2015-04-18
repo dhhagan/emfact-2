@@ -106,16 +106,28 @@ class Report(db.Model):
 	reactors = db.relationship('Reactor', backref = 'report', lazy = 'dynamic')
 	heatExchangers = db.relationship('HeatExchanger', backref = 'report', lazy = 'dynamic')
 	dryers = db.relationship('Dryer', backref = 'report', lazy = 'dynamic')
-
-	def __init__(self, title = None, description = None, location = None):
+	revenue = db.Column(db.Float)
+	NAICS = db.Column(db.Integer)
+	coal_frac = db.Column(db.Float)
+	oil_frac = db.Column(db.Float)
+	natgas_frac = db.Column(db.Float)
+	
+	def __init__(self, title = None, description = None, location = None, revenue= None):
 		self.title = title
 		self.description = description
 		self.location = location
+<<<<<<< Updated upstream
 		self.created = datetime.datetime.utcnow()
 
 	def has_reactors(self):
 		return True if self.reactors.count() > 0 else False
 
+=======
+#		self.created = datetime.datetime.utcnow()
+		self.created = datetime.utcnow()
+		self.revenue = revenue
+		
+>>>>>>> Stashed changes
 	def __repr__(self):
 		return "Report: {0}".format(self.title)
 
@@ -199,7 +211,7 @@ class Dryer(db.Model):
 	latentHeat = db.Column(db.Float)
 	efficiency = db.Column(db.Float)
 	report_id = db.Column(db.Integer, db.ForeignKey('report.id'))
-
+	power = db.Column(db.Float)
 	def __init__(self, **kwargs):
 		self.name 				= kwargs.get('name', None)
 		self.flowRate 			= kwargs.get('flowRate', None)
@@ -214,3 +226,27 @@ class Dryer(db.Model):
 
 	def __repr__(self):
 		return "Reactor: {0}".format(self.name)
+	
+class OtherEquipment(db.Model):
+	__tablename__ = 'otherequipment'
+	id = db.Column(db.Integer, primary_key = True)
+	name = db.Column(db.String(160))
+	flowRate = db.Column(db.Float)
+	power = db.Column(db.Float)
+	efficiency = db.Column(db.Float)
+	report_id = db.Column(db.Integer, db.ForeignKey('report.id'))
+	
+	def __init__(self, **kwargs):
+		self.name 				= kwargs.get('name', None)
+		self.flowRate 			= kwargs.get('flowRate', None)
+		self.power   		 	= kwargs.get('power', None)
+		self.efficiency 		= kwargs.get('efficiency', None)
+
+#class PlantInfo(db.Model):
+#	__tablename__='plantinfo'
+#	id = db.Column(db.Integer, primary_key = True)
+#	revenue=db.Column(db.Float)
+#	
+#	def __init__(self, **kwargs):
+#		self.revenue			= kwargs.get('revenue', None)
+		

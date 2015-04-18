@@ -1,0 +1,74 @@
+{% extends 'base-top-layer.html' %}
+
+{% block content %}
+
+<div class="container" style="padding-top: 100px;">
+  <div class="row">
+      <h1><strong>ClearFact</strong></h1>
+      <h2><strong>greenhouse gas & toxic material release system</strong><h2>
+      <p class="lead"></p>
+  </div>  
+</div> 
+
+<div>
+<ul class="nav nav-pills nav-justified">
+  <li role="presentation" class="active"><a href="#report" data-toggle="tab">Report</a></li>
+  <li role="presentation"><a href="#materials" data-toggle="tab">Materials</a></li>
+  <li role="presentation"><a href="#equipment" data-toggle="tab">Equipment</a></li>
+  <li role="presentation"><a href="#plantinfo" data-toggle="tab">Plant Info</a></li>
+</ul>
+</div>
+
+<div id="my-tab-content" class="tab-content">
+	<div class="tab-pane" id="report">
+			Input Report
+		</div>
+
+	<div class="tab-pane" id="materials">
+		Materials Form
+	</div>
+	
+	<div class="tab-pane" id="equipment">
+		Equipment Form
+	</div>
+	
+	<div class="tab-pane" id="plantinfo">
+		<div class=''>
+	{% if plantinfoform %}
+		<form method="post" name="plantinfoform" class='form-horizontal' enctype="multipart/form-data">
+			{{ plantinfoform.hidden_tag() }}
+			<div class='form-group'>
+				<div>
+					{{ plantinfoform.title(class = 'form-control', placeholder = 'enter the name of this report') }}
+				</div>
+				</div><div class='form-group'>
+				<div>
+					{{ plantinfoform.description(class = 'form-control', placeholder = 'describe this plant') }}
+				</div>
+				</div><div class='form-group'>
+				<div>
+					{{ plantinfoform.location(class = 'form-control', placeholder = 'where is this plant') }}
+				</div>
+				</div><div class='form-group'>
+				<div>
+					{{ plantinfoform.revenue(class = 'form-control', placeholder = 'How much does this plant make per year (USD)?') }}
+				</div>
+				</div><div class='form-group'>
+				<div>
+					{{ plantinfoform.NAICS(class = 'form-control', placeholder = 'What NAICS industry code applies to your plant?') }}
+				</div>
+			</div>
+
+			<button type='submit' class='btn btn-primary col-lg-offset-3 col-lg-4 col-md-offset-2 col-md-6 col-sm-6 col-sm-offset-3 col-xs-12'>Update</button>
+
+		</form>
+	{% endif %}
+</div>
+	</div>
+</div>
+	
+	
+	
+
+
+{% endblock %}

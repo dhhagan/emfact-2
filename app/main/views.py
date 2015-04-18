@@ -7,9 +7,13 @@ import json
 from flask.ext.sqlalchemy import get_debug_queries
 from sqlalchemy import desc
 from flask.ext.login import login_required, current_user
+<<<<<<< Updated upstream
 
 from .forms import ReactorForm, HeatXForm
 
+=======
+from .forms import PlantInfoForm
+>>>>>>> Stashed changes
 
 @main.route('/')
 @main.route('/index')
@@ -21,6 +25,7 @@ def index():
 def dashboard():
 	return render_template('main/dashboard.html')
 
+<<<<<<< Updated upstream
 @main.route('/view-report', methods = ['GET', 'POST'])
 @main.route('/view-report/<int:id>', methods = ['GET', 'POST'])
 def view_report(id = None):
@@ -70,3 +75,26 @@ def view_report(id = None):
 		reactorForm = reactorForm,
 		heatXForm = heatXForm,
 		report = report)
+=======
+@main.route('/input', methods = ['GET', 'POST'])
+@main.route('/input/<int:id>', methods =['GET','POST'])
+def input(id=None):
+	plantinfoform=PlantInfoForm()
+	if id is not None:
+		if plantinfoform.revenue.data>0:
+			newplantinfo=plantinfoform.revenue.data
+			db.session.add(newplantinfo)
+			db.session.commit()
+	else:	
+		if plantinfoform.validate_on_submit():
+			plant=Report(title=plantinfoform.title.data, description=plantinfoform.description.data, location=plantinfoform.location.data, revenue=plantinfoform.revenue.data)
+			plant.NAICS=plantinfoform.NAICS.data
+			db.session.add(plant)
+			db.session.commit()
+				
+			
+	return render_template('main/input.html',
+						plantinfoform=plantinfoform)
+
+
+>>>>>>> Stashed changes

@@ -1,4 +1,5 @@
 from flask.ext.wtf import Form
+<<<<<<< Updated upstream
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, FloatField
 from wtforms.validators import Required, Length, Email
 
@@ -16,3 +17,16 @@ class HeatXForm(Form):
 	tempOut = FloatField('TempOut')
 	efficiency = FloatField('Efficiency')
 	submit = SubmitField('Add')
+=======
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, FloatField, IntegerField
+from wtforms.validators import Required, Length, Email
+
+class PlantInfoForm(Form):
+    title = StringField('title')
+    description = StringField('description')
+    location = StringField('location')
+    revenue = FloatField('revenue') 
+    NAICS = IntegerField('NAICS')   
+    submit = SubmitField('Update')
+    
+>>>>>>> Stashed changes

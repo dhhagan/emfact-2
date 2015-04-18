@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<style>
+ body {
+    background: url({{url_for('static', filename='img/hawaii.JPG')}}) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    background-color: #333;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="container" style="padding-top: 100px;">
+  <div class="row">
+      <h1><strong>DORCHESTER AIR QUALITY SENSOR SYSTEM</strong></h1>
+      <p class="lead">Visit again soon for more information.</p>
+  </div>  
+</div> 
+
+{% endblock %}

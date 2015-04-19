@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/dhhagan/emfact-2.svg?branch=master)](https://travis-ci.org/dhhagan/emfact-2)
+
 # EMFACT 2.0
 
 Team PowerBasic+ created EMFACT-2.0 as part of the [2015 MIT Clean Earth Hackathon][3]. The [original EMFACT software][4] was developed by NEWMOA.

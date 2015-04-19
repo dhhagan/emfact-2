@@ -1,6 +1,6 @@
 # EMFACT 2.0
 
-Team PowerBasic+ created EMFACT-2.0 as part of the [2015 MIT Clean Earth Hackathon][3]
+Team PowerBasic+ created EMFACT-2.0 as part of the [2015 MIT Clean Earth Hackathon][3]. The [original EMFACT software][4] was developed by NEWMOA.
 
 ## Summary
 
@@ -38,3 +38,4 @@ This software is built with Python/[Flask][1] and can be run locally using eithe
 [1]: http://flask.pocoo.org/docs/0.10/tutorial/
 [2]: http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world
 [3]: http://cleanearthhack.mit.edu/
+[4]: http://www.newmoa.org/prevention/emfact/

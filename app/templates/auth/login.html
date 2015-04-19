@@ -28,10 +28,14 @@
 				</div>
 			</div>
 
-			<button type='submit' class='btn btn-primary col-lg-offset-3 col-lg-4 col-md-offset-2 col-md-6 col-sm-6 col-sm-offset-3 col-xs-12'>Login</button>
+			<div class='btn-block col-lg-2'>
+				<button type='submit' class='btn btn-primary btn-block'>Login</button>
+				<p></p>
+				<a href="{{url_for('auth.register')}}"> <button type="button" class="btn btn-default btn-block">Register</button></a>
+			</div>
 
 		</form>
-		<a href="{{url_for('auth.register')}}"> <button type="button" class="btn btn-default">New User</button></a>
+		
 	{% endif %}
 </div>
 

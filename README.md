@@ -1,6 +1,6 @@
 # EMFACT 2.0
 
-Team Power Basic + created EMFACT2.0 as part of the 2015 MIT Clean Earth Hackathon
+Team PowerBasic+ created EMFACT-2.0 as part of the [2015 MIT Clean Earth Hackathon][3]
 
 ## Summary
 
@@ -8,7 +8,7 @@ EMFACT 2.0 is built as a tool to help small and medium companies track pollutant
 
 ## Technical (Software) Overview
 
-This software is built with Python/Flask and can be run locally using either NGINX or Apache.
+This software is built with Python/[Flask][1] and can be run locally using either NGINX or Apache. A great Flask tutorial can be found [here][2]
 
 ## Installation
 
@@ -33,3 +33,8 @@ This software is built with Python/Flask and can be run locally using either NGI
 ### Run the server
 
     >>> (venv) sudo python manage.py runserver
+
+
+[1]: http://flask.pocoo.org/docs/0.10/tutorial/
+[2]: http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world
+[3]: http://cleanearthhack.mit.edu/

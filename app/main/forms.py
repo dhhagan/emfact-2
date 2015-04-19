@@ -1,14 +1,16 @@
 from flask.ext.wtf import Form
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, FloatField, IntegerField
-from wtforms.validators import Required, Length, Email
+from wtforms.validators import Required, Length, Email, Optional
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from ..models import NAICS_data
 
 
 class ReactorForm(Form):
 	name = StringField('Name', validators = [Required()])
-	power = FloatField('Power')
-	efficiency = FloatField('Efficiency')
+	power = FloatField('Power (kW)')
+	efficiency = FloatField('Efficiency (%)')
+	loadingrate = FloatField('Loading Rate (kg/h)', validators = [Optional()])
+	releasefrac = FloatField('Fraction to Air (mol %)', validators = [Optional()])
 	submit = SubmitField('Add')
 
 class HeatXForm(Form):
@@ -27,6 +29,6 @@ class PlantInfoForm(Form):
     title = StringField('title')
     description = StringField('description')
     location = StringField('location')
-    revenue = FloatField('revenue')
-    naics = QuerySelectField('NAICS', query_factory = choices)   
+    revenue = FloatField('revenue', validators = [Optional()])
+    naics = QuerySelectField('naics', query_factory = choices, validators = [Optional()])   
     submit = SubmitField('Update')

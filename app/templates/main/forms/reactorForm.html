@@ -7,8 +7,8 @@
         {% else %}
         <div class='form-group has-feedback'>
         {% endif %}
-
-            {{ reactorForm.name(class='form-control', placeholder='name..') }}
+            <label for="name">{{ reactorForm.name.label }}</label>
+            {{ reactorForm.name(class='form-control') }}
             {% if reactorForm.errors.name %}
                 <span class='glyphicon glyphicon-remove form-control-feedback'></span>
             {% endif %}
@@ -20,7 +20,8 @@
         {% else %}
         <div class='form-group has-feedback'>
         {% endif %}
-            {{ reactorForm.power(class='form-control', placeholder='power..') }}
+            <label for="power">{{ reactorForm.power.label }}</label>
+            {{ reactorForm.power(class='form-control') }}
             {% if reactorForm.errors.power %}
                 <span class='glyphicon glyphicon-remove form-control-feedback'></span>
             {% endif %}
@@ -31,8 +32,33 @@
         {% else %}
         <div class='form-group has-feedback'>
         {% endif %}
-            {{ reactorForm.efficiency(class='form-control', placeholder='efficiency..') }}
+            <label for="efficiency">{{ reactorForm.efficiency.label }}</label>
+            {{ reactorForm.efficiency(class='form-control') }}
             {% if reactorForm.errors.efficiency %}
+                <span class='glyphicon glyphicon-remove form-control-feedback'></span>
+            {% endif %}
+        </div>
+
+        {% if reactorForm.errors.loadingrate %}
+        <div class='form-group has-feedback has-error'>
+        {% else %}
+        <div class='form-group has-feedback'>
+        {% endif %}
+            <label for="loadingrate">{{ reactorForm.loadingrate.label }}</label>
+            {{ reactorForm.loadingrate(class='form-control') }}
+            {% if reactorForm.errors.loadingrate %}
+                <span class='glyphicon glyphicon-remove form-control-feedback'></span>
+            {% endif %}
+        </div>
+
+        {% if reactorForm.errors.releasefrac %}
+        <div class='form-group has-feedback has-error'>
+        {% else %}
+        <div class='form-group has-feedback'>
+        {% endif %}
+            <label for="releasefrac">{{ reactorForm.releasefrac.label }}</label>
+            {{ reactorForm.releasefrac(class='form-control') }}
+            {% if reactorForm.errors.releasefrac %}
                 <span class='glyphicon glyphicon-remove form-control-feedback'></span>
             {% endif %}
         </div>

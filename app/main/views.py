@@ -78,7 +78,7 @@ def view_report(id = None):
 		report.description 	= plantform.description.data
 		report.location 	= plantform.location.data
 		report.revenue		= plantform.revenue.data
-		report.NAICS		= plantform.naics.data.id
+		#report.NAICS		= plantform.naics.data.id
 
 		try:
 			db.session.add(report)

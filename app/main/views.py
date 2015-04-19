@@ -45,7 +45,7 @@ def view_report(id = None):
 		plantform.description.data = report.description
 		plantform.NAICS.data = report.NAICS
 
-		if reactorForm.validate_on_submit() and reactorForm.submit.data:
+		if reactorForm.validate_on_submit() and reactorForm.submitReactor.data:
 			new_reactor = Reactor(
 				name = reactorForm.name.data,
 				power = reactorForm.power.data,

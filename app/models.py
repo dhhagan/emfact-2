@@ -106,6 +106,8 @@ class Report(db.Model):
 	reactors = db.relationship('Reactor', backref = 'report', lazy = 'dynamic')
 	heatExchangers = db.relationship('HeatExchanger', backref = 'report', lazy = 'dynamic')
 	dryers = db.relationship('Dryer', backref = 'report', lazy = 'dynamic')
+	otherEquipment = db.relationship('OtherEquipment', backref = 'report', lazy = 'dynamic')
+	
 	revenue = db.Column(db.Float)
 	NAICS = db.Column(db.Integer)
 	coal_frac = db.Column(db.Float)
@@ -129,13 +131,16 @@ class Report(db.Model):
 		return True if self.dryers.count() > 0 else False
 	
 	def has_oequip(self):
-		return True if self.dryers.count() >0 else False
+		return True if self.otherEquipment.count() >0 else False
 	
 	def power(self, equip_type):
 		totalkw=0.0
 		for each in self.equip_type:
-			totalkw += each.power()
+			totalkw += each.calcpower()
 		return totalkw	
+	
+	def total_power(self):
+		return power(reactors)+power(heatExchangers)+power(dryers)+power(otherEquipment)
 
 	def ghg(self, equip_type):	#returns pounds of CO2 for each equipment type
 		totalkw=self.power(equip_type)
@@ -143,11 +148,18 @@ class Report(db.Model):
 		oil=oil_frac*totalkw*1.81
 		gas=natgas_frac*totalkw*1.21
 		return coal+oil+gas
-		#the data came from USEIA updated March 2015
+		#the data came from USEIA data updated updated March 2015
 	def __repr__(self):
 		return "Report: {0}".format(self.title)
-
-
+	
+	def plant_kwhperdollar(self):
+		if revenue>0:
+			return self.total_power()/revenue
+		return 0
+	
+	def industry_kwhperdollar(self):
+		return 1
+	
 class Reactor(db.Model):
 	__tablename__ = 'reactor'
 	id = db.Column(db.Integer, primary_key = True)
@@ -190,7 +202,7 @@ class Reactor(db.Model):
 
 	def __repr__(self):
 		return "Reactor: {0}".format(self.name)
-	def power(self):
+	def calcpower(self):
 		return self.power/self.efficiency
 
 class HeatExchanger(db.Model):
@@ -217,7 +229,7 @@ class HeatExchanger(db.Model):
 	def __repr__(self):
 		return "Reactor: {0}".format(self.name)
 	
-	def power(self):
+	def calcpower(self):
 		return self.power/self.efficiency
 
 class Dryer(db.Model):
@@ -250,7 +262,7 @@ class Dryer(db.Model):
 	def __repr__(self):
 		return "Reactor: {0}".format(self.name)
 	
-	def power(self):
+	def calcpower(self):
 		if self.power> 0.0:
 			return self.power/self.efficiency
 		return self.flowrate*(self.tempIn-self.tempOut)*self.latentHeat/self.efficiency;
@@ -271,5 +283,20 @@ class OtherEquipment(db.Model):
 		self.power   		 	= kwargs.get('power', None)
 		self.efficiency 		= kwargs.get('efficiency', None)
 		
-	def power(self):
+	def calcpower(self):
 		return self.power/self.efficiency
+
+class NAICS_data(db.Model):
+	id=db.Column(db.Integer, primary_key = True)
+	code=db.Column(db.Integer)
+	industry=db.Column(db.String(160))
+	kwhperdollar=db.Column(db.Float)
+	
+	def __init__(self, **kwargs):
+		self.code				=kwargs.get('code', None)
+		self.industry			=kwargs.get('industry', None)
+		self.kwhperdollar		=kwargs.get('kwhperdollar', None)
+		
+	def __repr__(self):
+		return "Code: {0}".format(self.industry)
+	

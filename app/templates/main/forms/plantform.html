@@ -8,7 +8,7 @@
         <div class='form-group has-feedback'>
         {% endif %}
 
-            <label for="title" class="col-lg-4 control-label">Title</label>
+            <label for="title" class="col-lg-2 control-label">Title</label>
             <div class="col-lg-8">
               {{ plantform.title(class='form-control')}}
                 {% if plantform.errors.title %}
@@ -23,7 +23,7 @@
         <div class='form-group has-feedback'>
         {% endif %}
 
-            <label for="description" class="col-lg-4 control-label">Description</label>
+            <label for="description" class="col-lg-2 control-label">Description</label>
             <div class="col-lg-8">
               {{ plantform.description(class='form-control')}}
                 {% if plantform.errors.description %}
@@ -38,7 +38,7 @@
         <div class='form-group has-feedback'>
         {% endif %}
 
-            <label for="location" class="col-lg-4 control-label">Location</label>
+            <label for="location" class="col-lg-2 control-label">Location</label>
             <div class="col-lg-8">
               {{ plantform.location(class='form-control')}}
                 {% if plantform.errors.location %}
@@ -53,7 +53,7 @@
         <div class='form-group has-feedback'>
         {% endif %}
 
-            <label for="description" class="col-lg-4 control-label">Revenue</label>
+            <label for="description" class="col-lg-2 control-label">Revenue</label>
             <div class="col-lg-8">
               {{ plantform.revenue(class='form-control', placeholder='per year in USD')}}
                 {% if plantform.errors.revenue %}
@@ -68,7 +68,7 @@
         <div class='form-group has-feedback'>
         {% endif %}
 
-            <label for="NAICS" class="col-lg-4 control-label">NAICS</label>
+            <label for="NAICS" class="col-lg-2 control-label">NAICS</label>
             <div class="col-lg-8">
               {{ plantform.naics(class='form-control', placeholder='what NAICS industry code applies to your plant..')}}
                 {% if plantform.errors.naics %}

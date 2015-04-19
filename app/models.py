@@ -164,27 +164,22 @@ class Report(db.Model):
 		#the data came from USEIA data updated updated March 2015
 	
 	def plant_kwhperdollar(self):
-<<<<<<< Updated upstream
-		if revenue > 0.0:
-			return self.total_power() / revenue
-		return 0
+		hrperyear = 24 * 365
+		if self.revenue is not None and self.revenue > 0.0:
+			return self.total_power() * hrperyear / self.revenue
+		
+		return 0.0
 	
 	def industry_kwhperdollar(self):
-		return 1
+		if self.NAICS is not None:
+			return self.NAICS.kwhperdollar
+		else:
+			return 0.0
 
 	def __repr__(self):
 		return "Report: {0}".format(self.title)
 	
-=======
-		hrperyear=24*365
-		if revenue is not None and revenue>0:
-			return self.total_power()*hrperyear/revenue
-		return 0
 	
-	def industry_kwhperdollar(self):
-		ind_type=NAICS_data.query.filter_by(code=self.NAICS).first()
-		return 	
->>>>>>> Stashed changes
 class Reactor(db.Model):
 	__tablename__ = 'reactor'
 	id = db.Column(db.Integer, primary_key = True)

@@ -10,7 +10,7 @@ EMFACT 2.0 is built as a tool to help small and medium companies track pollutant
 
 This software is built with Python/[Flask][1] and can be run locally using either NGINX or Apache. A great Flask tutorial can be found [here][2]
 
-## Installation
+## Installation (Local)
 
 ### Download the source code
 

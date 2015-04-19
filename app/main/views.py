@@ -1,4 +1,4 @@
-from flask import render_template, session, redirect, url_for, flash, current_app
+from flask import render_template, session, redirect, url_for, flash, current_app, abort
 from . import main
 from .. import db
 from ..models import User, Report, Reactor
@@ -28,7 +28,74 @@ def index():
 def dashboard():
 	return render_template('main/dashboard.html')
 
+@main.route('/create-report')
+def create_report():
+	report = Report()
+	report.user_id = current_user.id
 
+	db.session.add(report)
+	db.session.commit()
+
+	return redirect( url_for('main.view_report', id = report.id) )
+
+@main.route('/view-report/<int:id>', methods = ['GET', 'POST'])
+def view_report(id = None):
+	report = Report.query.filter_by(id = id).first()
+	if report is None:
+		abort(404)
+
+	if report not in current_user.reports:
+		flash("This is not your report!")
+		return redirect( url_for('main.dashboard') )
+
+	reactorForm = ReactorForm()
+	heatXForm = HeatXForm()
+	plantform = PlantInfoForm()
+
+	# Pre-fill some data
+	plantform.revenue.data = report.revenue
+	plantform.title.data = report.title
+	plantform.location.data = report.location
+	plantform.description.data = report.description
+	plantform.naics.data = report.NAICS
+
+	if reactorForm.validate_on_submit() and reactorForm.submit.data:
+		new_reactor = Reactor(
+			name = reactorForm.name.data,
+			power = reactorForm.power.data,
+			efficiency = reactorForm.efficiency.data,
+			report_id = report.id)
+		try:
+			db.session.add(new_reactor)
+			db.session.commit()
+		except:
+			flash("Could not create new reactor")
+
+		return redirect(url_for('main.view_report', id = report.id))
+
+	if plantform.validate_on_submit() and plantform.submit.data:
+		report.title 		= plantform.title.data
+		report.description 	= plantform.description.data
+		report.location 	= plantform.location.data
+		report.revenue		= plantform.revenue.data
+		report.NAICS		= plantform.naics.data.id
+
+		try:
+			db.session.add(report)
+			db.session.commit()
+		except:
+			flash("Something went wrong with the plantform")
+
+		return redirect( url_for('main.view_report', id = report.id) )
+
+	return render_template('main/report.html',
+		title = 'View Report',
+		report = report,
+		reactorForm = reactorForm,
+		heatXForm = heatXForm,
+		plantform = plantform)
+
+'''
 @main.route('/view-report', methods = ['GET', 'POST'])
 @main.route('/view-report/<int:id>', methods = ['GET', 'POST'])
 def view_report(id = None):
@@ -39,7 +106,6 @@ def view_report(id = None):
 	report = Report.query.filter_by(id = id).first()
 
 	if report is not None:
-		# pre-populate the fields in the plant info form only
 		plantform.revenue.data = report.revenue
 		plantform.title.data = report.title
 		plantform.description.data = report.description
@@ -121,3 +187,5 @@ def view_report(id = None):
 		heatXForm = heatXForm,
 		plantform = plantform,
 		report = report)
+
+'''

@@ -9,7 +9,7 @@ class ReactorForm(Form):
 	name = StringField('Name', validators = [Required()])
 	power = FloatField('Power')
 	efficiency = FloatField('Efficiency')
-	submitReactor = SubmitField('Add')
+	submit = SubmitField('Add')
 
 class HeatXForm(Form):
 	name = StringField('Name')
@@ -18,7 +18,7 @@ class HeatXForm(Form):
 	tempIn = FloatField('TempIn')
 	tempOut = FloatField('TempOut')
 	efficiency = FloatField('Efficiency')
-	submitHeatX = SubmitField('Add')
+	submit = SubmitField('Add')
 
 def choices():
     return NAICS_data.query
@@ -27,6 +27,6 @@ class PlantInfoForm(Form):
     title = StringField('title')
     description = StringField('description')
     location = StringField('location')
-    revenue = FloatField('revenue') 
-    NAICS = QuerySelectField('NAICS', query_factory = choices)   
-    submitInfo = SubmitField('Update')
+    revenue = FloatField('revenue')
+    naics = QuerySelectField('NAICS', query_factory = choices)   
+    submit = SubmitField('Update')

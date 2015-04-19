@@ -19,7 +19,7 @@
   <div class='tab-content'>
     <div role='tabpanel' class='tab-pane fade in active' id='reports'>
       <h1 class='page-header'>Reports
-        <a href="#"><button type='button' class='btn btn-primary btn-sm pull-right'>Create New Report</button></a>
+        <a href="{{ url_for('main.create_report') }}"><button type='button' class='btn btn-primary btn-sm pull-right'>Create New Report</button></a>
       </h1>
 
       {% if current_user.has_reports() %}
@@ -34,10 +34,10 @@
             </tr>
           </thead>
           <tbody>
-          {% for each in reports %}
+          {% for each in current_user.reports %}
               <tr>
                   <td>{{each.title}}</td>
-                  <td><a href="#" class='btn btn-warning btn-xs'><i class='fa fa-pencil-square-o'></i> Edit</a></td>
+                  <td><a href="{{ url_for('main.view_report', id = each.id) }}" class='btn btn-warning btn-xs'><i class='fa fa-pencil-square-o'></i> Edit</a></td>
                   <td><a href="#" class='btn btn-danger btn-xs'><i class='fa fa-trash-o'></i> Delete</a></td>
                   <td>{{ moment(each.created).fromNow() }}</td>
                   <td>{{each.description}}</td>

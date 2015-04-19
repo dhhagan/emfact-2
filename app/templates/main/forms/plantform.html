@@ -62,7 +62,7 @@
             </div>
         </div>
 
-        {% if plantform.errors.NAICS %}
+        {% if plantform.errors.naics %}
         <div class='form-group has-feedback has-error'>
         {% else %}
         <div class='form-group has-feedback'>
@@ -70,15 +70,15 @@
 
             <label for="NAICS" class="col-lg-4 control-label">NAICS</label>
             <div class="col-lg-8">
-              {{ plantform.NAICS(class='form-control', placeholder='what NAICS industry code applies to your plant..')}}
-                {% if plantform.errors.NAICS %}
+              {{ plantform.naics(class='form-control', placeholder='what NAICS industry code applies to your plant..')}}
+                {% if plantform.errors.naics %}
                 <span class='glyphicon glyphicon-remove form-control-feedback'></span>
                 {% endif %}
             </div>
         </div>
 
         <div class='col-lg-4 col-lg-offset-4'>
-            {{ plantform.submitInfo(class='btn btn-primary btn-block')}}
+            {{ plantform.submit(class='btn btn-primary btn-block')}}
         </div>
 
     </form>

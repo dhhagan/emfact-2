@@ -107,9 +107,8 @@ class Report(db.Model):
 	heatExchangers = db.relationship('HeatExchanger', backref = 'report', lazy = 'dynamic')
 	dryers = db.relationship('Dryer', backref = 'report', lazy = 'dynamic')
 	otherEquipment = db.relationship('OtherEquipment', backref = 'report', lazy = 'dynamic')
-	
 	revenue = db.Column(db.Float)
-	NAICS = db.Column(db.Integer)
+	NAICS = db.Column(db.Integer, db.ForeignKey('naics_data.id'))
 	coal_frac = db.Column(db.Float)
 	oil_frac = db.Column(db.Float)
 	natgas_frac = db.Column(db.Float)
@@ -224,8 +223,6 @@ class HeatExchanger(db.Model):
 		self.tempOut 		= kwargs.get('tempOut', None)
 		self.efficiency 	= kwargs.get('efficiency', None)
 
-
-
 	def __repr__(self):
 		return "Reactor: {0}".format(self.name)
 	
@@ -287,10 +284,12 @@ class OtherEquipment(db.Model):
 		return self.power/self.efficiency
 
 class NAICS_data(db.Model):
-	id=db.Column(db.Integer, primary_key = True)
-	code=db.Column(db.Integer)
-	industry=db.Column(db.String(160))
-	kwhperdollar=db.Column(db.Float)
+	__tablename__ = 'naics_data'
+	id = db.Column(db.Integer, primary_key = True)
+	code = db.Column(db.Integer)
+	industry = db.Column(db.String(160))
+	kwhperdollar = db.Column(db.Float)
+	reports = db.relationship('Report', backref = 'reports', lazy = 'dynamic')
 	
 	def __init__(self, **kwargs):
 		self.code				=kwargs.get('code', None)
@@ -298,5 +297,4 @@ class NAICS_data(db.Model):
 		self.kwhperdollar		=kwargs.get('kwhperdollar', None)
 		
 	def __repr__(self):
-		return "Code: {0}".format(self.industry)
-	
+		return "{0}".format(self.industry)

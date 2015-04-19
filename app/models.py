@@ -178,6 +178,18 @@ class Report(db.Model):
 
 	def ghg_other(self):
 		return self.ghg(self.power('otherEquipment'))
+
+	def ghg_total(self):
+		return self.ghg_reactors() + self.ghg_dryers() + self.ghg_heatX() + self.ghg_other()
+
+	def ghg_coal(self):
+		return self.ghg_total() * self.coal_frac
+
+	def ghg_natgas(self):
+		return self.ghg_total() * self.natgas_frac
+
+	def ghg_oil(self):
+		return self.ghg_total() * self.oil_frac
 	
 	def plant_kwhperdollar(self):
 		hrperyear = 24 * 365
@@ -198,9 +210,11 @@ class Report(db.Model):
 	
 	def reduced_ghg_replacing_coal_ng(self):
 		#coal = self.coal_frac * power * 2.15 #each term in lb of CO2
-		oil = self.oil_frac * power * 1.81
-		gas = (self.natgas_frac+self.coal_frac) * power * 1.21
-		return self.ghg(self.total_power())-oil - gas
+		total = self.total_power()
+		oil = self.oil_frac * total * 1.81
+		gas = (self.natgas_frac+self.coal_frac) * total * 1.21
+
+		return self.ghg(total) -oil - gas
 	
 	def largest_producer(self):
 		max_power=0.0

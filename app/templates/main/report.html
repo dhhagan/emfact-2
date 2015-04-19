@@ -110,8 +110,23 @@ chart.assignColor("Blue","red");
 
 chart.draw(100);
 
+// New Chart
+var svg2 = dimple.newSvg("#chart2", 1000, 400);           
+          
+var data2 = [
+    {"Energy Source": "Coal", "Metric": "Blue", "GHG": {{ report.ghg_coal()}} },
+    {"Energy Source": "Natural Gas", "Metric": "Blue", "GHG": {{ report.ghg_natgas()}} },
+    {"Energy Source": "Oil", "Metric": "Blue", "GHG": {{ report.ghg_oil()}} }
+];
+var chart2 = new dimple.chart(svg2, data2);
+var x2 = chart2.addCategoryAxis('x', ['Energy Source']);
+var y = chart2.addMeasureAxis("y", "GHG");
+   
+var bars = chart2.addSeries("Metric", dimple.plot.bar);
+bars.barGap = 0.5;
+chart2.assignColor("Blue","blue");
 
-
+chart2.draw(100);
 </script>
 
 {% endblock %}
@@ -143,29 +158,23 @@ chart.draw(100);
 						</div>
 					</div>
 					<div class='col-lg-6' id="power-plot">
-						<h3>Power</h3>
+						<h3>GHG by Fuel Source</h3>
+						<div id="chart2">
+						</div>
 					</div>
 		</div>
 
 		<div class='row'>
 			<h2 class='page-header'>Benchmarking  <small></small></h2>
-<<<<<<< Updated upstream
 				<div id="benchmarking-chart" class='col-lg-6'></div>
 		</div>
 		<div class='row'>
-			<h2 class='page-header'>Recomendations  <small></small></h2>
+			<h2 class='page-header'>Recomendations</h2>
 				<div class='col-lg-6'>
-					<p class='lead text-uppercase'>Report goes here</p>
+					<h3>Switching from Coal Energy<h3>
+						<p>Switching from Coal to Natural Gas will reduce your greenhouse gas emissions by <strong> 532 lb CO2</strong>
+						</p>
 				</div>
-		</div>
-=======
-				<p class='lead text-uppercase'>Report goes here</p>
-
-			<h2 class='page-header'>Recommendations  <small></small></h2>
-				<p class='lead text-uppercase'>
-					<h3>Switching from Coal Energy<h3></p>
-						<p>Switching from Coal to Natural Gas will reduce your greenhouse gas emissions by <strong> 532 lb CO2/hr<\strong></p>
->>>>>>> Stashed changes
 		</div>
 	</div>
 

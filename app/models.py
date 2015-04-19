@@ -5,10 +5,8 @@ from flask import current_app, url_for
 import random, string
 import datetime
 from sqlalchemy.exc import IntegrityError
-
 from flask.ext.login import UserMixin, AnonymousUserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
-
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -125,6 +123,7 @@ class Report(db.Model):
 		self.created = datetime.datetime.utcnow()
 
 	def has_reactors(self):
+		''' returns true if there are existing reactors for a given report '''
 		return True if self.reactors.count() > 0 else False
 	
 	def has_heatX(self):
@@ -159,13 +158,13 @@ class Report(db.Model):
 		return self.power('reactors') + self.power('heatExchangers')+ \
 			self.power('dryers') + self.power('otherEquipment')
 
-	def ghg(self, power):	#returns pounds of CO2 for each equipment type
+	def ghg(self, power):	
+		''' the data came from USEIA data updated updated March 2015'''
 		coal = self.coal_frac * power * 2.15 #each term in lb of CO2
 		oil = self.oil_frac * power * 1.81
 		gas = self.natgas_frac * power * 1.21
 
 		return coal + oil + gas
-		#the data came from USEIA data updated updated March 2015
 
 	def ghg_reactors(self):
 		return self.ghg(self.power('reactors'))
@@ -217,30 +216,30 @@ class Report(db.Model):
 		return self.ghg(total) -oil - gas
 	
 	def largest_producer(self):
-		max_power=0.0
-		largestequip=None
+		max_power = 0.0
+		largestequip = None
 		for each in self.reactors:
-			if each.calcpower()>max_power:
-				max_power=each.calcpower()
-				largestequip=each
+			if each.calcpower() > max_power:
+				max_power = each.calcpower()
+				largestequip = each
 		for each in self.heatExchangers:
-			if each.calcpower()>max_power:
-				max_power=each.calcpower()
-				largestequip=each
+			if each.calcpower() > max_power:
+				max_power = each.calcpower()
+				largestequip = each
 		for each in self.dryers:
-			if each.calcpower()>max_power:
-				max_power=each.calcpower()
-				largestequip=each
+			if each.calcpower() > max_power:
+				max_power = each.calcpower()
+				largestequip = each
 		for each in self.otherEquipment:
-			if each.calcpower()>max_power:
-				max_power=each.calcpower()
-				largestequip=each
+			if each.calcpower() > max_power:
+				max_power = each.calcpower()
+				largestequip = each
 		return largestequip
 	
 	def improve_efficiency(self, equip, eff_increase):
 		#returns total power saved by improving the efficiency of the unit
-		current_power=equip.calcpower()
-		new_power=equip.calcpower()*(eff_increase+equip.efficiency)/equip.efficiency
+		current_power = equip.calcpower()
+		new_power = equip.calcpower() * (eff_increase + equip.efficiency) / equip.efficiency
 		return current_power-new_power
 	
 class Reactor(db.Model):
@@ -357,7 +356,6 @@ class Dryer(db.Model):
 				power = self.flowRate * (self.tempIn - self.tempOut) * self.latentHeat / self.efficiency
 			except:
 				power = 0.0
-
 		return power
 	
 class OtherEquipment(db.Model):

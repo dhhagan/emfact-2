@@ -13,7 +13,7 @@ var pie = new d3pie("ghg-pie", {
 			"font": "open sans"
 		},
 		"subtitle": {
-			"text": "A full pie chart to show off label collision detection and resolution.",
+			"text": "Based on each type of eqiupment.",
 			"color": "#999999",
 			"fontSize": 12,
 			"font": "open sans"
@@ -35,7 +35,7 @@ var pie = new d3pie("ghg-pie", {
 		"content": [
 			{
 				"label": "Heat Exchangers",
-				"value": 100,
+				"value": {{report.power('heatExchangers')}},
 				"color": "#44b9b0"
 			},
 			{

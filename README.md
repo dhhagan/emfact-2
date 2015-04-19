@@ -16,6 +16,14 @@ This software is built with Python/Flask and can be run locally using either NGI
 
     >>> git clone https://github.com/dhhagan/emfact-2
     
+### Install flask (within a virtual environment)
+
+    >>> sudo virtualenv flask
+    
+### Install Dependancies
+
+    >>> (venv) sudo pip install -r requirements.txt
+    
 ### Initialize the database (set up using SQLite)
 
     >>> (venv) sudo python manage.py db init

@@ -138,7 +138,7 @@ class Report(db.Model):
 	
 	def power(self, equip_type):
 		totalkw = 0.0
-		if equip_type == 'heatExchanger' and self.has_heatX():
+		if equip_type == 'heatExchangers' and self.has_heatX():
 			for each in self.heatExchangers:
 				totalkw += each.calcpower()
 		elif equip_type == 'reactors' and self.has_reactors():
@@ -196,6 +196,38 @@ class Report(db.Model):
 	def __repr__(self):
 		return "Report: {0}".format(self.title)
 	
+	def reduced_ghg_replacing_coal_ng(self):
+		#coal = self.coal_frac * power * 2.15 #each term in lb of CO2
+		oil = self.oil_frac * power * 1.81
+		gas = (self.natgas_frac+self.coal_frac) * power * 1.21
+		return self.ghg(self.total_power())-oil - gas
+	
+	def largest_producer(self):
+		max_power=0.0
+		largestequip=None
+		for each in self.reactors:
+			if each.calcpower()>max_power:
+				max_power=each.calcpower()
+				largestequip=each
+		for each in self.heatExchangers:
+			if each.calcpower()>max_power:
+				max_power=each.calcpower()
+				largestequip=each
+		for each in self.dryers:
+			if each.calcpower()>max_power:
+				max_power=each.calcpower()
+				largestequip=each
+		for each in self.otherEquipment:
+			if each.calcpower()>max_power:
+				max_power=each.calcpower()
+				largestequip=each
+		return largestequip
+	
+	def improve_efficiency(self, equip, eff_increase):
+		#returns total power saved by improving the efficiency of the unit
+		current_power=equip.calcpower()
+		new_power=equip.calcpower()*(eff_increase+equip.efficiency)/equip.efficiency
+		return current_power-new_power
 	
 class Reactor(db.Model):
 	__tablename__ = 'reactor'

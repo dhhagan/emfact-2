@@ -3,6 +3,7 @@
 {% block script %}
 <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.4/d3.min.js"></script>
 <script type='text/javascript' src="/static/js/d3pie.min.js"></script>
+<script src="http://dimplejs.org/dist/dimple.v2.1.2.min.js"></script>
 
 <script>
 var pie = new d3pie("ghg-pie", {
@@ -13,7 +14,7 @@ var pie = new d3pie("ghg-pie", {
 			"font": "open sans"
 		},
 		"subtitle": {
-			"text": "Based on each type of eqiupment.",
+			"text": "Broken down by equipment.",
 			"color": "#999999",
 			"fontSize": 12,
 			"font": "open sans"
@@ -21,7 +22,7 @@ var pie = new d3pie("ghg-pie", {
 		"titleSubtitlePadding": 9
 	},
 	"footer": {
-		"text": "Data not actually real",
+		"text": "Data not actually from real life. YOLO!",
 		"color": "#999999",
 		"fontSize": 10,
 		"font": "open sans",
@@ -35,23 +36,23 @@ var pie = new d3pie("ghg-pie", {
 		"content": [
 			{
 				"label": "Heat Exchangers",
-				"value": {{report.power('heatExchangers')}},
-				"color": "#44b9b0"
+				"value": {{report.ghg_heatX()}},
+				"color": "#8ce6eb"
 			},
 			{
 				"label": "Dryers",
-				"value": 125,
-				"color": "#efefef"
+				"value": {{ report.ghg_dryers() }},
+				"color": "#43d158"
 			},
 			{
 				"label": "Reactors",
-				"value": 234,
-				"color": "#e65f5f"
+				"value": {{ report.ghg_reactors() }},
+				"color": "#a2f280"
 			},
 			{
 				"label": "Other",
-				"value": 123,
-				"color": "#3e0707"
+				"value": {{ report.ghg_other() }},
+				"color": "#e98413"
 			}
 		]
 	},
@@ -91,6 +92,26 @@ var pie = new d3pie("ghg-pie", {
 		}
 	}
 });
+
+var svg = dimple.newSvg("#benchmarking-chart", 1000, 400);           
+          
+var data = [
+    {"Baseline": "Your Plant", "Metric": "Blue", "kWh/USD": {{ report.plant_kwhperdollar()}} },
+    {"Baseline": "Industry Standard", "Metric": "Blue", "kWh/USD": {{ report.industry_kwhperdollar() }}}
+];
+var chart = new dimple.chart(svg, data);
+var x = chart.addCategoryAxis('x', ['Baseline']);
+x.addOrderRule(["Your Plant", "Industry Standard"]);
+var y1 = chart.addMeasureAxis("y", "kWh/USD");
+   
+var bars = chart.addSeries("Metric", dimple.plot.bar);
+bars.barGap = 0.5;
+chart.assignColor("Blue","red");
+
+chart.draw(100);
+
+
+
 </script>
 
 {% endblock %}
@@ -117,7 +138,7 @@ var pie = new d3pie("ghg-pie", {
 				<p class='lead text-uppercase'>Report goes here</p>
 
 					<div class='col-lg-6'>
-						<h3>Green House Gas Emissions</h3>
+						<!--<h3>Green House Gas Emissions</h3>-->
 						<div id="ghg-pie">
 						</div>
 					</div>
@@ -128,10 +149,14 @@ var pie = new d3pie("ghg-pie", {
 
 		<div class='row'>
 			<h2 class='page-header'>Benchmarking  <small></small></h2>
-				<p class='lead text-uppercase'>Report goes here</p>
-
+				<div id="benchmarking-chart" class='col-lg-6'></div>
+		</div>
+		<div class='row'>
 			<h2 class='page-header'>Recomendations  <small></small></h2>
-				<p class='lead text-uppercase'>Report goes here</p>
+				<div class='col-lg-6'>
+					<p class='lead text-uppercase'>Report goes here</p>
+				</div>
+		</div>
 		</div>
 	</div>
 

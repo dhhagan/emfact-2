@@ -113,11 +113,15 @@ class Report(db.Model):
 	oil_frac = db.Column(db.Float)
 	natgas_frac = db.Column(db.Float)
 	
-	def __init__(self, title = None, description = None, location = None, revenue= None):
+	def __init__(self, title = None, description = None, location = None, revenue= None,
+		coal_frac = 0.5, oil_frac = 0.25, natgas_frac = 0.25):
 		self.title = title
 		self.description = description
 		self.location = location
 		self.revenue = revenue
+		self.coal_frac = coal_frac
+		self.oil_frac = oil_frac
+		self.natgas_frac = natgas_frac
 		self.created = datetime.datetime.utcnow()
 
 	def has_reactors(self):
@@ -162,6 +166,18 @@ class Report(db.Model):
 
 		return coal + oil + gas
 		#the data came from USEIA data updated updated March 2015
+
+	def ghg_reactors(self):
+		return self.ghg(self.power('reactors'))
+
+	def ghg_heatX(self):
+		return self.ghg(self.power('heatExchanger'))
+
+	def ghg_dryers(self):
+		return self.ghg(self.power('dryers'))
+
+	def ghg_other(self):
+		return self.ghg(self.power('otherEquipment'))
 	
 	def plant_kwhperdollar(self):
 		hrperyear = 24 * 365
@@ -172,7 +188,8 @@ class Report(db.Model):
 	
 	def industry_kwhperdollar(self):
 		if self.NAICS is not None:
-			return self.NAICS.kwhperdollar
+			naics = NAICS_data.query.get(self.NAICS)
+			return naics.kwhperdollar
 		else:
 			return 0.0
 
@@ -281,6 +298,7 @@ class Dryer(db.Model):
 		self.tempOut 			= kwargs.get('tempOut', None)
 		self.latentHeat 		= kwargs.get('latentHeat', None)
 		self.efficiency 		= kwargs.get('efficiency', None)
+		self.power 				= kwargs.get('power', None)
 
 	def __repr__(self):
 		return "Reactor: {0}".format(self.name)
@@ -288,10 +306,11 @@ class Dryer(db.Model):
 	def calcpower(self):
 		if self.power is not None and self.power > 0.0:
 			power = self.power / self.efficiency
-		try:
-			power = self.flowRate * (self.tempIn - self.tempOut) * self.latentHeat / self.efficiency
-		except:
-			power = 0.0
+		else:
+			try:
+				power = self.flowRate * (self.tempIn - self.tempOut) * self.latentHeat / self.efficiency
+			except:
+				power = 0.0
 
 		return power
 	

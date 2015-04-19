@@ -3,8 +3,8 @@ from app.models import *
 #from ..decorators import admin_required, permission_required
 
 n = NAICS_data.query.filter_by(code=325193).first() #ethyl alcohol plant
-#r=Report.query.first()
-r=Report.
+r=Report()
+
 r.title         = "Example Plant - Ethanol Production"
 r.description     = "A prototype example for Clean Earth Hackathon"
 r.location     = "MIT"
